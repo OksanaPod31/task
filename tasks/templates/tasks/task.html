@@ -1,0 +1,29 @@
+{% extends 'tasks/base.html' %}
+{% block content %}
+  <p>Task: {{ task }}</p>
+  <p>Entries:</p>
+  <p>
+    <a href="{% url 'tasks:new_entry' task.id %}">add new entry</a>
+  </p>
+  <ul>
+  {% for entry in entries %}
+    <li>
+        <p>{{ entry.start_time|date:'M d, Y' }}</p>
+        <p>{{ entry.end_time|date:'M d, Y' }}</p>
+        {% if entry.completed != True %}
+          <input type="checkbox" disabled /> <label>No completed</label>
+        {% else %}
+          <input type="checkbox" disabled checked/> <label>Completed</label>
+        {% endif %}
+        <p>Prioritet: --{{ entry.priority }}--</p>
+        <p>
+            <a href="{% url 'tasks:edit_entry' entry.id %}">Edit entry</a>
+        </p>
+    </li>
+  {% empty %}
+    <li>There are no entries for this task yet ¯\_(ツ)_/¯</li>
+  {% endfor %}
+  </ul>
+{% endblock content %}
+
+
